@@ -21,9 +21,9 @@ for kk=1:length(iimage)
       end
     end
     
-    v11 = reshape(vpa(v(1,1,:)),6,1);
-    v12 = reshape(vpa(v(1,2,:)),6,1);
-    v22 = reshape(vpa(v(2,2,:)),6,1);
+    v11 = reshape(v(1,1,:),6,1);
+    v12 = reshape(v(1,2,:),6,1);
+    v22 = reshape(v(2,2,:),6,1);
     
     V = [V; v12'; (v11-v22)']; 
     o = [o; 0; 0];
@@ -45,15 +45,15 @@ B = [ b(1) b(2) b(4)
       b(2) b(3) b(5)
       b(4) b(5) b(6)];
 
-% B should be positive definite
-%eig(B)
+% B should be positive definite, if not just take the opposite
+if any(eig(B)<0)
+    B = -B;
 
 % Now I can calculate L from B, and then find the intrinsic parameters for
 % the matrix K, which is intrinsic.
 L = chol(B,'lower');
 K = inv(L');
 K = K/K(3,3); % imposing K33 = 1 for proper scale
-
 
 
 end

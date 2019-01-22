@@ -38,7 +38,7 @@ end
 diff=(XYpixel-est_proj).^2;
 errors=sqrt(diff(:,1)+diff(:,2));
 %imageData(idx).rep_error=sum(errors,'all');
-rep_error=sum(errors,'all')
+rep_error=sum(errors,'all');
 
 end
 

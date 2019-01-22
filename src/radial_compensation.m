@@ -30,7 +30,8 @@ for jj=1:n_points
     % solve using Newton method
     fun = @(x)radial_comp(x, x_hat, y_hat, k);
     x0 = [double(x_hat),double(y_hat)];
-    sol = fsolve(fun,x0);
+    options = optimset('Display','off');
+    sol = fsolve(fun,x0, options);
     
     % find the undistorted coordinates (x,y)
     x = u0+sol(1)*alpha_u;
@@ -55,7 +56,7 @@ end
 % distances
 diff=(XYpixel-undist_est_proj).^2;
 errors=sqrt(diff(:,1)+diff(:,2));
-rep_error=sum(errors,'all')
+rep_error=sum(errors,'all');
 
 %imageData(idx).undist_est_proj = undist_est_proj;
 
