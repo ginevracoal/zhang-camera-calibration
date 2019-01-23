@@ -1,11 +1,11 @@
 function [k] = estimate_dist_param(imageData, K)
-%
+% estimates distortion parameters
 
 % get intrinsic parameters
 u0=K(1,3);
 v0=K(2,3);
 alpha_u=K(1,1);
-alpha_v=K(2,2)*alpha_u./sqrt(K(1,2)^2+alpha_u^2);
+alpha_v=K(2,2)*alpha_u/sqrt(K(1,2)^2+alpha_u^2);
 
 XYpixel = imageData.XYpixel;
 est_proj = imageData.est_proj;
@@ -34,10 +34,9 @@ for ii=1:length(XYpixel)
     b=[b; u_hat-u; v_hat-v];
 end
 
-%k=vpa(A)\vpa(b)
 k=pinv(A)*b;
 
 %% check the error
-% sum(abs(A*k-b))
+%sum(abs(A*k-b))
 end
 

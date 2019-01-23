@@ -55,6 +55,5 @@ L = chol(B,'lower');
 K = inv(L');
 K = K/K(3,3); % imposing K33 = 1 for proper scale
 
-
 end
 

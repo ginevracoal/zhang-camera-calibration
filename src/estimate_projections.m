@@ -28,17 +28,13 @@ for jj=1:length(XYpixel)
     %XYpixel(jj,:)
 end
 
-%imageData(idx).est_proj = est_proj;
-
 % compute the total reprojection error as the sum of the euclidean
 % distances
 
-%rep_error(XYpixel, est_proj)
-
-diff=(XYpixel-est_proj).^2;
-errors=sqrt(diff(:,1)+diff(:,2));
-%imageData(idx).rep_error=sum(errors,'all');
-rep_error=sum(errors,'all');
+diff=XYpixel-est_proj;
+errors = sqrt(sum(diff.^2,2));
+%rep_error=sum(errors,'all');
+rep_error=norm(XYpixel-est_proj);
 
 end
 

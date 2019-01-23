@@ -1,12 +1,10 @@
-function [imageData, iimage] = create_imagedata(wd)
+function [imageData] = create_imagedata(iimage)
 
 %% create imageData 
 clear imageData
 
-iimage=[1 4 7 10];
-
 for ii=1:length(iimage)
-  imageFileName = fullfile(fullfile(wd,'../images'),['Image' num2str(iimage(ii)) '.tif']);
+  imageFileName = fullfile(fullfile('images/'),['Image' num2str(iimage(ii)) '.tif']);
   
   imageData(ii).I = imread(imageFileName); %#ok %this removes the warning
 
