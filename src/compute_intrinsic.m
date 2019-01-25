@@ -13,11 +13,11 @@ for kk=1:length(iimage)
     for ii=1:2
       for jj=1:2
           v(ii,jj,:)=[ H(1,ii)*H(1,jj)
-          H(1,ii)*H(2,jj)+H(2,ii)*H(1,jj)
-          H(2,ii)*H(2,jj)
-          H(3,ii)*H(1,jj)+H(1,ii)*H(3,jj)
-          H(3,ii)*H(2,jj)+H(2,ii)*H(3,jj)
-          H(3,ii)*H(3,jj)];         
+                       H(1,ii)*H(2,jj)+H(2,ii)*H(1,jj)
+                       H(2,ii)*H(2,jj)
+                       H(3,ii)*H(1,jj)+H(1,ii)*H(3,jj)
+                       H(3,ii)*H(2,jj)+H(2,ii)*H(3,jj)
+                       H(3,ii)*H(3,jj)];         
       end
     end
     
@@ -36,9 +36,8 @@ end
 
 % Then I solve the linear system Vb=0 by least squares, 
 % using the SVD decomposition.
-clear U S
 
-[U,S,W]=svd(V); % search for a non trivial solution
+[~,~,W]=svd(V); % search for a non trivial solution
 b=W(:,end); % the right singular vector associated to the smallest 
             % singular value
 B = [ b(1) b(2) b(4)
@@ -48,12 +47,15 @@ B = [ b(1) b(2) b(4)
 % B should be positive definite, if not just take the opposite
 if any(eig(B)<0)
     B = -B;
+end
 
 % Now I can calculate L from B, and then find the intrinsic parameters for
 % the matrix K, which is intrinsic.
 L = chol(B,'lower');
 K = inv(L');
-K = K/K(3,3); % imposing K33 = 1 for proper scale
+format short g
+K = K./K(3,3); % imposing K33 = 1 for proper scale
+
 
 end
 

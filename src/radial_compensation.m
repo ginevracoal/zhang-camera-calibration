@@ -13,7 +13,6 @@ est_proj = imageData.est_proj;
 %alpha_v=K(2,2)*alpha_u./sqrt(alpha_u^2+K(1,2)^2);
 
 undist_est_proj=[];
-
 for jj=1:length(XYpixel)
     % normalize the distorted pixel coordinates (substract the center of 
     % projection and divide by the focal length) by using K^{-1}
@@ -29,7 +28,7 @@ for jj=1:length(XYpixel)
     fun = @(x)radial_comp(x, x_hat, y_hat, k);
     x0 = [double(x_hat),double(y_hat)];
     options = optimset('Display','off');
-    sol = fsolve(fun,x0, options);
+    sol = fsolve(fun,x0,options);
     
     % find the undistorted pixel coordinates (x,y)
     
@@ -40,7 +39,6 @@ for jj=1:length(XYpixel)
     x = xy(1);
     y = xy(2);
     undist_est_proj = [undist_est_proj; x y];
-    
 end
 
 % check: the result should be approximately XYpixel(jj,:)
@@ -50,8 +48,7 @@ end
 % distances
 diff=XYpixel-undist_est_proj;
 errors = sqrt(sum(diff.^2,2));
-%rep_error = sum(errors,'all')
-rep_error=norm(XYpixel-undist_est_proj)
+rep_error = sum(errors,'all')
 
 function F=radial_comp(x, x_hat, y_hat, k)
     F(1) = double(x_hat - x(1)*(1+k(1)*(x(1)^2+x(2)^2)+k(2)*(x(1)^4+2*x(1)^2*x(2)^2+x(2)^4)));

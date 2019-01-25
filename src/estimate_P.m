@@ -28,4 +28,8 @@ p=V(:,end); % the right  singular vector associated to the smallest
 
 % reshape the vector in a square matrix and transpose it
 P=reshape(p,[3 3])'; 
+
+if all(P<0)
+    P = -P;
+end
 end

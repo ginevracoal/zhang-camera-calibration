@@ -8,7 +8,7 @@ old_rep_error = imageData(idx).rep_error;
 [imageData(idx).est_proj,... %new estimated projections
  imageData(idx).rep_error] = radial_compensation(imageData, K, k);
 % compute the error difference
-error_difference = old_rep_error-imageData(idx).rep_error
+error_difference = old_rep_error-imageData(idx).rep_error;
  
 % ITERATIVE PART
 threshold = 0.01;
@@ -32,5 +32,8 @@ while abs(error_difference) > threshold
     % find the error difference
     error_difference = old_rep_error-imageData(idx).rep_error;
 end
+
+% print the final error
+final_error_difference = error_difference
 
 end

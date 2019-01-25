@@ -1,7 +1,7 @@
 clear all
 
 % to disable images
-%set(0,'DefaultFigureVisible','off')
+%set(0,'DefaultFigureVisible','on')
 
 %creating imagedata objects
 iimage=[1 4 7 10];
@@ -46,8 +46,10 @@ end
 
 % superimpose a 3d object to each image
 for ii=1:length(iimage)
+    clear im
     figure
-    imshow(imageData(ii).I)
+    im=imageData(ii).I;
+    imshow(im)
     P = K*[imageData(ii).R imageData(ii).t]; % 3x4
    
     hold on % superimpose something

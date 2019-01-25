@@ -33,8 +33,7 @@ end
 
 diff=XYpixel-est_proj;
 errors = sqrt(sum(diff.^2,2));
-%rep_error=sum(errors,'all');
-rep_error=norm(XYpixel-est_proj);
+rep_error=sum(errors,'all');
 
 end
 
