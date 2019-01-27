@@ -13,9 +13,9 @@ for ii=1:length(iimage) % for all the images
       
       Xmm=(col-1)*squaresize;
       Ymm=(row-1)*squaresize;
-      
+ 
       imageData(ii).XYmm(jj,:)=[Xmm Ymm];
-        
+      
   end
  
 end

@@ -1,18 +1,18 @@
-function [est_proj, rep_error] = estimate_projections(imageData, K)
-% given an image and the extrinsic K, it projects mm coordinates into the
+function [new_est_proj, rep_error] = estimate_projections(imageData, K)
+% Given an image and an intrinsic K, it projects mm coordinates into the
 % pixel ones and computes the reprojection error against the ideal pixel
-% coordinates
+% coordinates.
 
-% for cleaner code
 %lambda = imageData.lambda;
 R = imageData.R;
 t = imageData.t;
-XYpixel=imageData.XYpixel;
+%XYpixel=imageData.XYpixel;
+est_proj = imageData.est_proj;
 XYmm=imageData.XYmm;
 
-est_proj=[];
+new_est_proj=[];
 
-for jj=1:length(XYpixel)
+for jj=1:length(XYmm)
     Xmm=XYmm(jj,1);
     Ymm=XYmm(jj,2);
     m=[Xmm; Ymm; 1];
@@ -21,7 +21,7 @@ for jj=1:length(XYpixel)
     P = K*[R(:,1:2) t];
     est = P*m;
     norm_est = [est(1)./est(3) est(2)./est(3)];
-    est_proj = [est_proj; norm_est];
+    new_est_proj = [new_est_proj; norm_est];
     
     %% check: this should be approximately XYpixel(jj,:)
     %norm_est
@@ -31,7 +31,8 @@ end
 % compute the total reprojection error as the sum of the euclidean
 % distances
 
-diff=XYpixel-est_proj;
+%diff=XYpixel-est_proj;
+diff=est_proj-new_est_proj;
 errors = sqrt(sum(diff.^2,2));
 rep_error=sum(errors,'all');
 

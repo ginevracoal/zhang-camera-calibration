@@ -8,7 +8,11 @@ for ii=1:length(iimage)
   
   imageData(ii).I = imread(imageFileName); %#ok %this removes the warning
 
+  % this is the real value of pixel coordinates
   imageData(ii).XYpixel = detectCheckerboardPoints(imageData(ii).I); %#ok
+  
+  % this will be the value of the estimated projections
+  imageData(ii).est_proj = imageData(ii).XYpixel;
 end
 
 end

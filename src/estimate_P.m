@@ -1,35 +1,44 @@
 function [P] = estimate_P(imageData)
+%% estimates the homography from a set of known 3d-2d correspondences
+
 est_proj=imageData.est_proj;
-XYpixel=imageData.XYpixel;
+%XYpixel=imageData.XYpixel;
 XYmm=imageData.XYmm;
+
+%% Solve Ap=0 system
+% I should get a 2n x 9 system from n correspondences
 A=[];
-b=[];
-for jj=1:length(est_proj)
+o=[];
+for jj=1:length(est_proj) % n=156 correspondences
 
     Xpixel=est_proj(jj,1);
     Ypixel=est_proj(jj,2);
     Xmm=XYmm(jj,1);
     Ymm=XYmm(jj,2);
 
-    m=[Xmm; Ymm; 1]; % the semicolumn tells not to display the object
+    m=[Xmm; Ymm; 1]; 
     O=[0;0;0];
-    % here ' indicates the transpose matrix
-    % I'm adding two rows to A at each iteration 
-    % (A finally has 2x156=312 rows)
+    
+    % I'm adding two rows to A and b for each correspondence
     A=[A; m' O' -Xpixel*m';O' m' -Ypixel*m']; %#ok
-    b=[b;0;0]; %#ok
-    % each time i'm adding a new row entry to A and b,
-    % finally getting a 2nx12 system
+    o=[o;0;0]; %#ok
 
 end
-[U,S,V]=svd(A); % search for a non trivial solution
+
+% check: A should be a 312x9 matrix
+% size(A)
+
+% Least squares method
+[~,~,V]=svd(A); % search for a non trivial solution
 p=V(:,end); % the right  singular vector associated to the smallest 
             % singular value
 
-% reshape the vector in a square matrix and transpose it
-P=reshape(p,[3 3])'; 
+% The computed vector contains the rows of the homography, so it has to be
+% reshaped a square matrix and transposed.
+P=reshape(p,[3 3])'; %%%%% 
 
-if all(P<0)
+if det(P)<0
     P = -P;
 end
+
 end

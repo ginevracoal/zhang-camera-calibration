@@ -3,7 +3,7 @@ function [undist_est_proj, rep_error] = radial_compensation(imageData, K, k)
 % it performs radial compensation and computes the new undistorted 
 % projected points
 
-XYpixel=imageData.XYpixel;
+%XYpixel=imageData.XYpixel;
 est_proj = imageData.est_proj;
 
 % get intrinsic parameters
@@ -13,7 +13,7 @@ est_proj = imageData.est_proj;
 %alpha_v=K(2,2)*alpha_u./sqrt(alpha_u^2+K(1,2)^2);
 
 undist_est_proj=[];
-for jj=1:length(XYpixel)
+for jj=1:length(est_proj)
     % normalize the distorted pixel coordinates (substract the center of 
     % projection and divide by the focal length) by using K^{-1}
     
@@ -46,7 +46,8 @@ end
     
 % compute the total reprojection error as the sum of the euclidean
 % distances
-diff=XYpixel-undist_est_proj;
+%diff=XYpixel-undist_est_proj;
+diff=est_proj-undist_est_proj;
 errors = sqrt(sum(diff.^2,2));
 rep_error = sum(errors,'all')
 

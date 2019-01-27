@@ -7,20 +7,19 @@ r2 = K\H(:,2);
 t = K\H(:,3);
 
 % normalization
-lambda = 1/norm(r1); %~= 1/norm(r2)
+%lambda = 1/norm(r1); %~= 1/norm(r2)
 %r1 = r1*lambda;
 %r2 = r2*lambda;
 %t = t*lambda;
-
-% check: r1 and r2 should be othornorormal!
-format short g
-dot(r1,r2) % == 0
-dot(r1,r1)
 
 % final rotation matrix
 r3 = cross(r1,r2);
 R = [r1 r2 r3]; %%% something's wrong...
 
+% check: r1 and r2 should be orthonormal!
+%format short g
+%dot(r1,r2) % == 0
+%dot(r1,r1)
 
 %% checking the computed matrices against H
 %sum(abs(K*[R(:,1:2) t]-H),'all')

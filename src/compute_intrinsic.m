@@ -56,6 +56,5 @@ K = inv(L');
 format short g
 K = K./K(3,3); % imposing K33 = 1 for proper scale
 
-
 end
 

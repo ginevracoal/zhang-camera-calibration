@@ -3,20 +3,21 @@ clear all
 % to disable images
 %set(0,'DefaultFigureVisible','on')
 
-%creating imagedata objects
+%% create imagedata objects
 iimage=[1 4 7 10];
 imageData = create_imagedata(iimage);
 
-% perform Zhang camera calibration
+%% perform Zhang camera calibration
 [imageData, K] = complete_camera_calibration(imageData, iimage);
 
-% compute the estimated projections for one of the images
+%% compute the estimated projections for one of the images
 idx=1;
 [imageData(idx).est_proj,...
  imageData(idx).rep_error] = estimate_projections(imageData(idx), K);
-imageData(idx).rep_error
 
-% plot the reprojected points
+% plot the reprojected points and the total reprojection error
+initial_rep_error = imageData(idx).rep_error
+ 
 figure
 im = imageData(idx);
 imshow(im.I);
@@ -26,14 +27,16 @@ for jj=1:size(im.XYpixel)
     plot(im.est_proj(jj,1),im.est_proj(jj,2),'og')
 end
 
+%% perform  radial distortion compensation on the chosen image
 % estimate radial distortion parameters k1 and k2
 k = estimate_dist_param(imageData(idx), K);
 
-% perform  radial distortion compensation on the chosen image
-%idx = 1;
-[imageData] = iterative_radial_compensation(imageData, iimage, K, k, idx);
+[imageData, K] = iterative_radial_compensation(imageData, iimage, K, k, idx);
 
 % show the result of radial compensation
+final_rep_error = imageData(idx).rep_error
+
+clear im
 figure
 im = imageData(idx);
 imshow(im.I)
