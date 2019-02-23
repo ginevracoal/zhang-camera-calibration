@@ -1,4 +1,5 @@
 clear all
+close all
 
 % to disable images
 %set(0,'DefaultFigureVisible','on')
@@ -46,7 +47,6 @@ for ii=1:size(im.XYpixel,1)
     plot(im.est_proj(ii,1),im.est_proj(ii,2),'og')
 end
 
-
 % superimpose a 3d object to each image
 for ii=1:length(iimage)
     clear im
@@ -76,8 +76,6 @@ for ii=1:length(iimage)
     set(f,'facealpha',.5)
     
     % projections from plane z!=0
-    hold on
-   
     vZ=repmat(5e6,1,length(vtheta));
     new_homogeneous = [vX; vY; vZ; ones(1,length(vtheta))];
     new_proj_hom = P*new_homogeneous;
